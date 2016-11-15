@@ -1,11 +1,10 @@
 syntax on
-filetype plugin indent on
 
 set nocompatible
 set number
 set nowrap
 set showmode
-set tw=80
+" set tw=80
 set smartcase
 set smarttab
 set smartindent

@@ -117,3 +117,5 @@ if ! shopt -oq posix; then
 fi
 
 export PATH=$PATH:/home/cdupont/.local/bin/
+
+setxkbmap -option terminate:ctrl_alt_bksp

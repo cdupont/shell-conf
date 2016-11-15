@@ -1,24 +1,36 @@
-#!/bin/sh
-# create a new session. Note the -d flag, we do not want to attach just yet!
-tmux new-session -s asdf -n 'th' -d
+#!/bin/bash
 
-# send 'tail -f foo<enter>' to the first pane.
-# I adress the first pane using the -t flag. This is not necessary,
-# I'm doing it so explicitly to show you how to do it.
-# for the <enter> key, we can use either C-m (linefeed) or C-j (newline)
-tmux send-keys -t asdf:th.0 "vim $1" C-j
+function tmux_web {
+  SESSION_NAME=$1
+  FILE_NAME=$2
+  
+  # create a new session. Note the -d flag, we do not want to attach just yet!
+  tmux new-session -s $SESSION_NAME -n 'th' -d
+  
+  tmux send-keys -t $SESSION_NAME:th.0 "vim $FILE_NAME" C-j
+  
+  # split the window *vertically*
+  tmux split-window -v -p 20
+  
+  # finally attach to the session
+  tmux attach -t $SESSION_NAME
+}
 
-# split the window *vertically*
-tmux split-window -v -p 20
 
-# we now have two panes in myWindow: pane 0 is above pane 1
-# again, specifying pane 1 with '-t 1' is optional
-#tmux send-keys -t 1 'tail -f bar' C-j
+#new session base name is current directory name
+DIR_NAME=${PWD##*/}
 
-# uncomment the following command if you want to attach
-# explicitly to the window we just created
+echo "Trying to create new Tmux session with name '$DIR_NAME'."
+tmux has-session -t $DIR_NAME 2>/dev/null
+if [ $? -eq 1 ]
+then
+  echo "Session not found. Create Session '$DIR_NAME'."
+  tmux_web $DIR_NAME $1
+else
+  #random string as new session suffix
+  RAND_NUMB=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 2 | head -n 1)
+  echo "Session found. Create session with name '$DIR_NAME$RAND_NUMB'"
+  tmux_web "$DIR_NAME$RAND_NUMB" $1
+fi
 
-#tmux select-window -t asdf:mywindow
-
-# finally attach to the session
-tmux attach -t asdf
+echo "Start tmux session $DIR_NAME."
