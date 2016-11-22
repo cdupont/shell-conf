@@ -27,6 +27,7 @@ set completeopt+=longest
 set t_Co=256
 
 set cmdheight=1
+:set laststatus=2
 
 execute pathogen#infect()
 
@@ -57,3 +58,8 @@ nnoremap \ :Ag<SPACE>
 
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+
+hi StatusLine                  ctermfg=8     ctermbg=2     cterm=NONE
+hi StatusLineNC                ctermfg=2     ctermbg=8     cterm=NONE
+

@@ -119,3 +119,9 @@ fi
 export PATH=$PATH:/home/cdupont/.local/bin/
 
 setxkbmap -option terminate:ctrl_alt_bksp
+
+# added by travis gem
+[ -f /home/cdupont/.travis/travis.sh ] && source /home/cdupont/.travis/travis.sh
+
+export VISUAL=vim
+export EDITOR="$VISUAL"
