@@ -31,7 +31,7 @@ set cmdheight=1
 
 execute pathogen#infect()
 
-map <Leader>n :NERDTreeToggle<CR>
+" map <Leader>n :NERDTreeToggle<CR>
 
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
